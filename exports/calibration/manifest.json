@@ -1,0 +1,117 @@
+{
+  "freecad_version": "1.1.3",
+  "parts": [
+    {
+      "file": "mechanism-left.stl",
+      "volume_mm3": 74331.17341393503,
+      "size_mm": [
+        61.0,
+        82.00000000000001,
+        120.00000000000001
+      ],
+      "triangles": 10450,
+      "name": "mechanism-left",
+      "plate_origin_mm": [
+        24,
+        34,
+        0
+      ]
+    },
+    {
+      "file": "mechanism-right.stl",
+      "volume_mm3": 81591.48050341794,
+      "size_mm": [
+        61.0,
+        82.00000000000001,
+        120.00000000000001
+      ],
+      "triangles": 9812,
+      "name": "mechanism-right",
+      "plate_origin_mm": [
+        100,
+        34,
+        0
+      ]
+    },
+    {
+      "file": "axle-6mm.stl",
+      "volume_mm3": 3648.5282455573715,
+      "size_mm": [
+        10.000000100000001,
+        10.0000001,
+        126.5
+      ],
+      "triangles": 10572,
+      "name": "axle-6mm",
+      "plate_origin_mm": [
+        175,
+        34,
+        0
+      ]
+    },
+    {
+      "file": "axle-key.stl",
+      "volume_mm3": 323.56095705378976,
+      "size_mm": [
+        10.0000002,
+        10.0000002,
+        6.450000100000002
+      ],
+      "triangles": 7230,
+      "name": "axle-key",
+      "plate_origin_mm": [
+        197,
+        34,
+        0
+      ]
+    },
+    {
+      "file": "fit-20.stl",
+      "volume_mm3": 1356.8121984754775,
+      "size_mm": [
+        21.0,
+        12.0,
+        8.6
+      ],
+      "triangles": 1084,
+      "name": "fit-20",
+      "plate_origin_mm": [
+        172,
+        75,
+        0
+      ]
+    },
+    {
+      "file": "fit-40.stl",
+      "volume_mm3": 1341.6571555145606,
+      "size_mm": [
+        21.0,
+        12.0,
+        8.6
+      ],
+      "triangles": 1472,
+      "name": "fit-40",
+      "plate_origin_mm": [
+        202,
+        75,
+        0
+      ]
+    },
+    {
+      "file": "fit-60.stl",
+      "volume_mm3": 1325.9994577290695,
+      "size_mm": [
+        21.0,
+        12.0,
+        8.6
+      ],
+      "triangles": 1860,
+      "name": "fit-60",
+      "plate_origin_mm": [
+        172,
+        100,
+        0
+      ]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "file": "body-original.stl",
+    "uploaded_name": "Been 4mm.stl",
+    "sha256": "f7671db9738a397e7554e37b29e71e9952b0535ff57e6514d50c0abb74338316",
+    "unit_assumption": "mm; STL does not encode units"
+  },
+  {
+    "file": "connector-original.stl",
+    "uploaded_name": "Rubber 4mm.stl",
+    "sha256": "e8e561727ff7b86b839c156620de23dbdaed1f730be9b08e3b653d288fde108c",
+    "unit_assumption": "mm; STL does not encode units"
+  }
+]

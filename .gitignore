@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+*.FCStd1
+*.FCStd.*
+*.gcode
+/result.json
+.DS_Store
+.forge/*
+!.forge/CONTEXT.md
+!.forge/config.json
+!.forge/adr/
+!.forge/retro/
+!.forge/codebase/
+!.forge/rules/
+!.forge/branch/

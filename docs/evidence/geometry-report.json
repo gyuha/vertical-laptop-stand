@@ -1,0 +1,905 @@
+{
+  "result": "pass",
+  "scope": "digital calibration geometry only; physical performance unverified",
+  "parameters_sha256": "0c2dd5332015e1ca85c3206980f37a4280e927258d44a401bd9c8bf5291a05ca",
+  "generator_sha256": "e6a72ff9307a0d4d4d3629a27ef7b3d0239a7d00dd5dd80f8a6820cfaec29d6c",
+  "artifact_sha256": {
+    "axle-6mm.stl": "0c83723ec26f2cbd5a1efd7b04a7b9a6888649e67d982e0f93f269d63d13cda3",
+    "axle-key.stl": "6eebf405f90395a260d583bdbdd1d451b7baf2ae7d81bbda1236f41c87e731a2",
+    "calibration-plate.stl": "56aa36a154b935f0493e3b452b8e63b3e33db92a8c4809f03135c4f923b10b8e",
+    "fit-20.stl": "c447e6fcb7b49359d580ec03e672bc2f316bd5f212849d29802427ac7194be33",
+    "fit-40.stl": "d7eb9615d699d752c5bf0271654ae11317e7170a7b6bd102ddcaa37ba1ab4d9d",
+    "fit-60.stl": "c6b6816290f381339421cbe2150040e11cd8f88fa59c9d2f9acff51cda39aec0",
+    "fit-plate.stl": "1835d02d217cd25a45d86033122a17c90f703625c36734bbbe4466392b8df155",
+    "mechanism-left.stl": "7eff41da5c65ac3b628912edf8e58e63bed76f3c917bc3bda190b8dc71734410",
+    "mechanism-right.stl": "18c1bcfaa8466f6ee52c59e1094813fc26c2729ef658b09f5fda3472d7282584"
+  },
+  "meshes": [
+    {
+      "file": "mechanism-left.stl",
+      "triangles": 10450,
+      "components": 1,
+      "volume_mm3": 74331.551,
+      "bounds_mm": [
+        [
+          0.0,
+          0.0,
+          0.0
+        ],
+        [
+          60.99734,
+          82.0,
+          120.0
+        ]
+      ],
+      "min_triangle_area_mm2": 9.345445128700788e-05
+    },
+    {
+      "file": "mechanism-right.stl",
+      "triangles": 9812,
+      "components": 1,
+      "volume_mm3": 81586.953,
+      "bounds_mm": [
+        [
+          0.00266,
+          0.0,
+          0.0
+        ],
+        [
+          61.0,
+          82.0,
+          120.0
+        ]
+      ],
+      "min_triangle_area_mm2": 9.34643686953948e-05
+    },
+    {
+      "file": "axle-6mm.stl",
+      "triangles": 10572,
+      "components": 1,
+      "volume_mm3": 3646.084,
+      "bounds_mm": [
+        [
+          0.00066,
+          0.0,
+          0.0
+        ],
+        [
+          9.99934,
+          9.99738,
+          126.5
+        ]
+      ],
+      "min_triangle_area_mm2": 0.0008017937003980874
+    },
+    {
+      "file": "axle-key.stl",
+      "triangles": 7230,
+      "components": 1,
+      "volume_mm3": 323.322,
+      "bounds_mm": [
+        [
+          0.0006,
+          0.0024,
+          0.0
+        ],
+        [
+          10.0,
+          10.0,
+          6.45
+        ]
+      ],
+      "min_triangle_area_mm2": 2.9620529182167723e-06
+    },
+    {
+      "file": "fit-20.stl",
+      "triangles": 1084,
+      "components": 1,
+      "volume_mm3": 1356.529,
+      "bounds_mm": [
+        [
+          0.00149,
+          0.0,
+          0.0
+        ],
+        [
+          21.0,
+          11.9988,
+          8.6
+        ]
+      ],
+      "min_triangle_area_mm2": 4.885964585810143e-05
+    },
+    {
+      "file": "fit-40.stl",
+      "triangles": 1472,
+      "components": 1,
+      "volume_mm3": 1341.385,
+      "bounds_mm": [
+        [
+          0.00149,
+          0.0,
+          0.0
+        ],
+        [
+          21.0,
+          11.9988,
+          8.6
+        ]
+      ],
+      "min_triangle_area_mm2": 4.885915132035734e-05
+    },
+    {
+      "file": "fit-60.stl",
+      "triangles": 1860,
+      "components": 1,
+      "volume_mm3": 1325.738,
+      "bounds_mm": [
+        [
+          0.00149,
+          0.0,
+          0.0
+        ],
+        [
+          21.0,
+          11.9988,
+          8.6
+        ]
+      ],
+      "min_triangle_area_mm2": 4.8849381528270897e-05
+    },
+    {
+      "file": "calibration-plate.stl",
+      "triangles": 42508,
+      "components": 7,
+      "volume_mm3": 163911.56,
+      "bounds_mm": [
+        [
+          24.0,
+          34.0,
+          0.0
+        ],
+        [
+          223.0,
+          116.0,
+          126.5
+        ]
+      ],
+      "min_triangle_area_mm2": 2.9188658179484767e-06
+    },
+    {
+      "file": "fit-plate.stl",
+      "triangles": 22218,
+      "components": 5,
+      "volume_mm3": 7993.057,
+      "bounds_mm": [
+        [
+          24.00066,
+          14.0,
+          0.0
+        ],
+        [
+          107.0,
+          51.9988,
+          126.5
+        ]
+      ],
+      "min_triangle_area_mm2": 2.9746613394268073e-06
+    }
+  ],
+  "solid_assembly": {
+    "max_body_overlap_mm3": 0.0,
+    "minimum_floor_clearance_mm": -8.43769498715119e-15,
+    "pose_samples": 33,
+    "physical_stop_checks": [
+      {
+        "angle_deg": -0.1,
+        "stop_overlap_mm3": 0.663223705080915
+      },
+      {
+        "angle_deg": -2,
+        "stop_overlap_mm3": 13.25317890670117
+      }
+    ],
+    "opening_stop_contact_area_mm2": 19.999999999999996,
+    "opening_stop_contact_bounds": "BoundBox (0, 0, -12, 0, 4, -7)",
+    "no_closing_limiter_check_deg": 10.2,
+    "internal_band_paths_checked": 33,
+    "minimum_band_surface_clearance_mm": 0.07750770799713358,
+    "hook_direction": [
+      0,
+      1,
+      0
+    ],
+    "hook_mount_y_mm": 4.0,
+    "hook_tip_y_mm": 8.2,
+    "lower_hook_platform_removed": true,
+    "pointed_hook_wings_removed": true,
+    "hook_support_style": "diagonal outer sides with R1mm transitions",
+    "outer_edge_fillet_radius_mm": 1.0,
+    "long_perimeter_fillet_faces": 5,
+    "stand_front_to_back_width_mm": 120.00000000000001,
+    "retainer_style": "concealed tongue inside round end cap",
+    "retainer_cap_diameter_mm": 10.0000002,
+    "retainer_rear_catch_overlap_mm3": 30.147655101618376,
+    "laptop_contacts": [
+      {
+        "angle_deg": 0.0,
+        "seat_height_mm": 31.0,
+        "shelf_distances_mm": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "angle_deg": 0.25625,
+        "seat_height_mm": 30.84221853879007,
+        "shelf_distances_mm": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "angle_deg": 0.5125,
+        "seat_height_mm": 30.684182295176786,
+        "shelf_distances_mm": [
+          3.552713678800501e-15,
+          3.552713678800501e-15
+        ]
+      },
+      {
+        "angle_deg": 0.7687499999999999,
+        "seat_height_mm": 30.525896542901936,
+        "shelf_distances_mm": [
+          3.552713678800501e-15,
+          3.552713678800501e-15
+        ]
+      },
+      {
+        "angle_deg": 1.025,
+        "seat_height_mm": 30.36736658281295,
+        "shelf_distances_mm": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "angle_deg": 1.28125,
+        "seat_height_mm": 30.20859774301863,
+        "shelf_distances_mm": [
+          3.552713678800501e-15,
+          3.552713678800501e-15
+        ]
+      },
+      {
+        "angle_deg": 1.5374999999999999,
+        "seat_height_mm": 30.049595379049364,
+        "shelf_distances_mm": [
+          3.552713678800501e-15,
+          3.552713678800501e-15
+        ]
+      },
+      {
+        "angle_deg": 1.7937499999999997,
+        "seat_height_mm": 29.890364874021884,
+        "shelf_distances_mm": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "angle_deg": 2.05,
+        "seat_height_mm": 29.7309116388086,
+        "shelf_distances_mm": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "angle_deg": 2.30625,
+        "seat_height_mm": 29.571241112211755,
+        "shelf_distances_mm": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "angle_deg": 2.5625,
+        "seat_height_mm": 29.41135876114229,
+        "shelf_distances_mm": [
+          8.881784197001252e-16,
+          8.881784197001252e-16
+        ]
+      },
+      {
+        "angle_deg": 2.8187499999999996,
+        "seat_height_mm": 29.251270080803646,
+        "shelf_distances_mm": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "angle_deg": 3.0749999999999997,
+        "seat_height_mm": 29.090980594880605,
+        "shelf_distances_mm": [
+          8.881784197001252e-16,
+          8.881784197001252e-16
+        ]
+      },
+      {
+        "angle_deg": 3.33125,
+        "seat_height_mm": 28.930495855733156,
+        "shelf_distances_mm": [
+          3.552713678800501e-15,
+          3.552713678800501e-15
+        ]
+      },
+      {
+        "angle_deg": 3.5874999999999995,
+        "seat_height_mm": 28.7698214445956,
+        "shelf_distances_mm": [
+          3.552713678800501e-15,
+          3.552713678800501e-15
+        ]
+      },
+      {
+        "angle_deg": 3.8437499999999996,
+        "seat_height_mm": 28.608962971780944,
+        "shelf_distances_mm": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "angle_deg": 4.1,
+        "seat_height_mm": 28.44792607689072,
+        "shelf_distances_mm": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "angle_deg": 4.356249999999999,
+        "seat_height_mm": 28.286716429030268,
+        "shelf_distances_mm": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "angle_deg": 4.6125,
+        "seat_height_mm": 28.125339727029726,
+        "shelf_distances_mm": [
+          8.881784197001252e-16,
+          8.881784197001252e-16
+        ]
+      },
+      {
+        "angle_deg": 4.8687499999999995,
+        "seat_height_mm": 27.96380169967066,
+        "shelf_distances_mm": [
+          3.552713678800501e-15,
+          3.552713678800501e-15
+        ]
+      },
+      {
+        "angle_deg": 5.125,
+        "seat_height_mm": 27.80210810591866,
+        "shelf_distances_mm": [
+          3.552713678800501e-15,
+          3.552713678800501e-15
+        ]
+      },
+      {
+        "angle_deg": 5.38125,
+        "seat_height_mm": 27.640264735161807,
+        "shelf_distances_mm": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "angle_deg": 5.637499999999999,
+        "seat_height_mm": 27.478277407455327,
+        "shelf_distances_mm": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "angle_deg": 5.89375,
+        "seat_height_mm": 27.31615197377242,
+        "shelf_distances_mm": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "angle_deg": 6.1499999999999995,
+        "seat_height_mm": 27.15389431626148,
+        "shelf_distances_mm": [
+          3.552713678800501e-15,
+          3.552713678800501e-15
+        ]
+      },
+      {
+        "angle_deg": 6.406249999999999,
+        "seat_height_mm": 26.99151034850977,
+        "shelf_distances_mm": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "angle_deg": 6.6625,
+        "seat_height_mm": 26.829006015813775,
+        "shelf_distances_mm": [
+          3.972054645195637e-15,
+          3.972054645195637e-15
+        ]
+      },
+      {
+        "angle_deg": 6.918749999999999,
+        "seat_height_mm": 26.666387295456236,
+        "shelf_distances_mm": [
+          3.66205343881779e-15,
+          3.66205343881779e-15
+        ]
+      },
+      {
+        "angle_deg": 7.174999999999999,
+        "seat_height_mm": 26.5036601969902,
+        "shelf_distances_mm": [
+          8.881784197001252e-16,
+          8.881784197001252e-16
+        ]
+      },
+      {
+        "angle_deg": 7.4312499999999995,
+        "seat_height_mm": 26.340830762530054,
+        "shelf_distances_mm": [
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "angle_deg": 7.687499999999999,
+        "seat_height_mm": 26.177905067049778,
+        "shelf_distances_mm": [
+          3.66205343881779e-15,
+          3.66205343881779e-15
+        ]
+      },
+      {
+        "angle_deg": 7.94375,
+        "seat_height_mm": 26.01488921868858,
+        "shelf_distances_mm": [
+          3.66205343881779e-15,
+          3.66205343881779e-15
+        ]
+      },
+      {
+        "angle_deg": 8.2,
+        "seat_height_mm": 25.851789359064057,
+        "shelf_distances_mm": [
+          3.552713678800501e-15,
+          3.552713678800501e-15
+        ]
+      }
+    ],
+    "pin_insertion_paths_checked": [
+      "main",
+      "main-key"
+    ],
+    "mesh_self_intersections_checked": [
+      "axle-6mm.stl",
+      "axle-key.stl",
+      "calibration-plate.stl",
+      "fit-20.stl",
+      "fit-40.stl",
+      "fit-60.stl",
+      "fit-plate.stl",
+      "mechanism-left.stl",
+      "mechanism-right.stl"
+    ]
+  },
+  "motion": [
+    {
+      "angle_deg": 0.0,
+      "hinge_height_mm": 22.0,
+      "felt_gap_mm": 32.8,
+      "hook_clearance_mm": 8.7,
+      "band_spans_mm": [
+        20.0
+      ],
+      "opening_torque_mm_per_N": [
+        -10.8
+      ]
+    },
+    {
+      "angle_deg": 0.25625,
+      "hinge_height_mm": 21.807467147944152,
+      "felt_gap_mm": 32.26298500509188,
+      "hook_clearance_mm": 8.552299073801759,
+      "band_spans_mm": [
+        20.09640362820654
+      ],
+      "opening_torque_mm_per_N": [
+        -10.755168074142393
+      ]
+    },
+    {
+      "angle_deg": 0.5125,
+      "hinge_height_mm": 21.614498094557433,
+      "felt_gap_mm": 31.72532467357031,
+      "hook_clearance_mm": 8.404377075273915,
+      "band_spans_mm": [
+        20.192405280431693
+      ],
+      "opening_torque_mm_per_N": [
+        -10.710121019283516
+      ]
+    },
+    {
+      "angle_deg": 0.7687499999999999,
+      "hinge_height_mm": 21.421096699680934,
+      "felt_gap_mm": 31.18702975992367,
+      "hook_clearance_mm": 8.256236963209075,
+      "band_spans_mm": [
+        20.28800303641355
+      ],
+      "opening_torque_mm_per_N": [
+        -10.66485973647186
+      ]
+    },
+    {
+      "angle_deg": 1.025,
+      "hinge_height_mm": 21.22726683180362,
+      "felt_gap_mm": 30.648111031333524,
+      "hook_clearance_mm": 8.107881700762638,
+      "band_spans_mm": [
+        20.383194983969094
+      ],
+      "opening_torque_mm_per_N": [
+        -10.619385131040984
+      ]
+    },
+    {
+      "angle_deg": 1.28125,
+      "hinge_height_mm": 21.033012367984927,
+      "felt_gap_mm": 30.108579267459177,
+      "hook_clearance_mm": 7.959314255393528,
+      "band_spans_mm": [
+        20.477979219032438
+      ],
+      "opening_torque_mm_per_N": [
+        -10.5736981125914
+      ]
+    },
+    {
+      "angle_deg": 1.5374999999999999,
+      "hinge_height_mm": 20.838337193777217,
+      "felt_gap_mm": 29.56844526022213,
+      "hook_clearance_mm": 7.810537598804823,
+      "band_spans_mm": [
+        20.57235384569292
+      ],
+      "opening_torque_mm_per_N": [
+        -10.527799594972397
+      ]
+    },
+    {
+      "angle_deg": 1.7937499999999997,
+      "hinge_height_mm": 20.64324520314808,
+      "felt_gap_mm": 29.02771981359018,
+      "hook_clearance_mm": 7.661554706884337,
+      "band_spans_mm": [
+        20.666316976233027
+      ],
+      "opening_torque_mm_per_N": [
+        -10.481690496263745
+      ]
+    },
+    {
+      "angle_deg": 2.05,
+      "hinge_height_mm": 20.447740298402408,
+      "felt_gap_mm": 28.486413743361325,
+      "hook_clearance_mm": 7.5123685596450684,
+      "band_spans_mm": [
+        20.759866731166134
+      ],
+      "opening_torque_mm_per_N": [
+        -10.43537173875734
+      ]
+    },
+    {
+      "angle_deg": 2.30625,
+      "hinge_height_mm": 20.25182639010438,
+      "felt_gap_mm": 27.944537876947415,
+      "hook_clearance_mm": 7.362982141165624,
+      "band_spans_mm": [
+        20.85300123927414
+      ],
+      "opening_torque_mm_per_N": [
+        -10.388844248938755
+      ]
+    },
+    {
+      "angle_deg": 2.5625,
+      "hinge_height_mm": 20.05550739699921,
+      "felt_gap_mm": 27.402103053157575,
+      "hook_clearance_mm": 7.213398439530502,
+      "band_spans_mm": [
+        20.94571863764484
+      ],
+      "opening_torque_mm_per_N": [
+        -10.342108957468707
+      ]
+    },
+    {
+      "angle_deg": 2.8187499999999996,
+      "hinge_height_mm": 19.858787245934764,
+      "felt_gap_mm": 26.85912012198143,
+      "hook_clearance_mm": 7.063620446770329,
+      "band_spans_mm": [
+        21.03801707170924
+      ],
+      "opening_torque_mm_per_N": [
+        -10.295166799164434
+      ]
+    },
+    {
+      "angle_deg": 3.0749999999999997,
+      "hinge_height_mm": 19.661669871783044,
+      "felt_gap_mm": 26.315599944372046,
+      "hook_clearance_mm": 6.913651158802027,
+      "band_spans_mm": [
+        21.129894695278622
+      ],
+      "opening_torque_mm_per_N": [
+        -10.248018712981017
+      ]
+    },
+    {
+      "angle_deg": 3.33125,
+      "hinge_height_mm": 19.46415921736145,
+      "felt_gap_mm": 25.7715533920287,
+      "hook_clearance_mm": 6.763493575368873,
+      "band_spans_mm": [
+        21.22134967058149
+      ],
+      "opening_torque_mm_per_N": [
+        -10.200665641992574
+      ]
+    },
+    {
+      "angle_deg": 3.5874999999999995,
+      "hinge_height_mm": 19.266259233353924,
+      "felt_gap_mm": 25.226991347179414,
+      "hook_clearance_mm": 6.61315069998051,
+      "band_spans_mm": [
+        21.3123801683003
+      ],
+      "opening_torque_mm_per_N": [
+        -10.153108533373414
+      ]
+    },
+    {
+      "angle_deg": 3.8437499999999996,
+      "hinge_height_mm": 19.06797387823193,
+      "felt_gap_mm": 24.68192470236329,
+      "hook_clearance_mm": 6.462625539852846,
+      "band_spans_mm": [
+        21.4029843676081
+      ],
+      "opening_torque_mm_per_N": [
+        -10.105348338379082
+      ]
+    },
+    {
+      "angle_deg": 4.1,
+      "hinge_height_mm": 18.869307118175275,
+      "felt_gap_mm": 24.13636436021265,
+      "hook_clearance_mm": 6.311921105847938,
+      "band_spans_mm": [
+        21.493160456204897
+      ],
+      "opening_torque_mm_per_N": [
+        -10.057386012327337
+      ]
+    },
+    {
+      "angle_deg": 4.356249999999999,
+      "hinge_height_mm": 18.670262926992766,
+      "felt_gap_mm": 23.590321233234917,
+      "hook_clearance_mm": 6.16104041241373,
+      "band_spans_mm": [
+        21.582906630353946
+      ],
+      "opening_torque_mm_per_N": [
+        -10.009222514579038
+      ]
+    },
+    {
+      "angle_deg": 4.6125,
+      "hinge_height_mm": 18.470845286042746,
+      "felt_gap_mm": 23.043806243594364,
+      "hook_clearance_mm": 6.0099864775237855,
+      "band_spans_mm": [
+        21.67222109491782
+      ],
+      "opening_torque_mm_per_N": [
+        -9.96085880851896
+      ]
+    },
+    {
+      "angle_deg": 4.8687499999999995,
+      "hinge_height_mm": 18.27105818415343,
+      "felt_gap_mm": 22.496830322893665,
+      "hook_clearance_mm": 5.858762322616904,
+      "band_spans_mm": [
+        21.7611020633943
+      ],
+      "opening_torque_mm_per_N": [
+        -9.912295861536522
+      ]
+    },
+    {
+      "angle_deg": 5.125,
+      "hinge_height_mm": 18.07090561754314,
+      "felt_gap_mm": 21.94940441195518,
+      "hook_clearance_mm": 5.707370972536705,
+      "band_spans_mm": [
+        21.849547757952134
+      ],
+      "opening_torque_mm_per_N": [
+        -9.863534645006437
+      ]
+    },
+    {
+      "angle_deg": 5.38125,
+      "hinge_height_mm": 17.87039158974036,
+      "felt_gap_mm": 21.401539460602173,
+      "hook_clearance_mm": 5.555815455471084,
+      "band_spans_mm": [
+        21.937556409466573
+      ],
+      "opening_torque_mm_per_N": [
+        -9.814576134269275
+      ]
+    },
+    {
+      "angle_deg": 5.637499999999999,
+      "hinge_height_mm": 17.66952011150367,
+      "felt_gap_mm": 20.85324642743975,
+      "hook_clearance_mm": 5.404098802891699,
+      "band_spans_mm": [
+        22.025126257554785
+      ],
+      "opening_torque_mm_per_N": [
+        -9.765421308611968
+      ]
+    },
+    {
+      "angle_deg": 5.89375,
+      "hinge_height_mm": 17.46829520074149,
+      "felt_gap_mm": 20.304536279635677,
+      "hook_clearance_mm": 5.252224049493279,
+      "band_spans_mm": [
+        22.112255550611046
+      ],
+      "opening_torque_mm_per_N": [
+        -9.716071151248213
+      ]
+    },
+    {
+      "angle_deg": 6.1499999999999995,
+      "hinge_height_mm": 17.266720882431752,
+      "felt_gap_mm": 19.75541999270101,
+      "hook_clearance_mm": 5.1001942331329495,
+      "band_spans_mm": [
+        22.198942545841778
+      ],
+      "opening_torque_mm_per_N": [
+        -9.666526649298802
+      ]
+    },
+    {
+      "angle_deg": 6.406249999999999,
+      "hinge_height_mm": 17.064801188541367,
+      "felt_gap_mm": 19.205908550270564,
+      "hook_clearance_mm": 4.948012394769474,
+      "band_spans_mm": [
+        22.285185509300426
+      ],
+      "opening_torque_mm_per_N": [
+        -9.61678879377189
+      ]
+    },
+    {
+      "angle_deg": 6.6625,
+      "hinge_height_mm": 16.862540157945574,
+      "felt_gap_mm": 18.65601294388318,
+      "hook_clearance_mm": 4.795681578402418,
+      "band_spans_mm": [
+        22.370982715922114
+      ],
+      "opening_torque_mm_per_N": [
+        -9.566858579543156
+      ]
+    },
+    {
+      "angle_deg": 6.918749999999999,
+      "hinge_height_mm": 16.65994183634717,
+      "felt_gap_mm": 18.105744172761916,
+      "hook_clearance_mm": 4.643204831011248,
+      "band_spans_mm": [
+        22.45633244955818
+      ],
+      "opening_torque_mm_per_N": [
+        -9.516737005335921
+      ]
+    },
+    {
+      "angle_deg": 7.174999999999999,
+      "hinge_height_mm": 16.457010276195565,
+      "felt_gap_mm": 17.555113243594,
+      "hook_clearance_mm": 4.4905852024944135,
+      "band_spans_mm": [
+        22.541233003010475
+      ],
+      "opening_torque_mm_per_N": [
+        -9.466425073701151
+      ]
+    },
+    {
+      "angle_deg": 7.4312499999999995,
+      "hinge_height_mm": 16.25374953660575,
+      "felt_gap_mm": 17.004131170310707,
+      "hook_clearance_mm": 4.337825745608326,
+      "band_spans_mm": [
+        22.625682678065537
+      ],
+      "opening_torque_mm_per_N": [
+        -9.415923790997422
+      ]
+    },
+    {
+      "angle_deg": 7.687499999999999,
+      "hinge_height_mm": 16.050163683277074,
+      "felt_gap_mm": 16.452808973867,
+      "hook_clearance_mm": 4.184929515906292,
+      "band_spans_mm": [
+        22.709679785528543
+      ],
+      "opening_torque_mm_per_N": [
+        -9.365234167370781
+      ]
+    },
+    {
+      "angle_deg": 7.94375,
+      "hinge_height_mm": 15.84625678841194,
+      "felt_gap_mm": 15.901157682021143,
+      "hook_clearance_mm": 4.031899571677398,
+      "band_spans_mm": [
+        22.793222645257092
+      ],
+      "opening_torque_mm_per_N": [
+        -9.31435721673454
+      ]
+    },
+    {
+      "angle_deg": 8.2,
+      "hinge_height_mm": 15.642032930634358,
+      "felt_gap_mm": 15.349188329114078,
+      "hook_clearance_mm": 3.878738973885353,
+      "band_spans_mm": [
+        22.876309586194832
+      ],
+      "opening_torque_mm_per_N": [
+        -9.263293956749004
+      ]
+    }
+  ]
+}
