@@ -42,8 +42,63 @@ def mirror(shape):
     return shape.mirror(V(0,0,0), V(1,0,0))
 
 
+def capsule(radius, half_span, y, length, x, z):
+    """Horizontal obround extruded into the stand; span excludes round ends."""
+    assert radius > 0 and half_span > 0 and length > 0
+    return join(cylinder(radius,y,length,x-half_span,z),
+                Part.makeBox(2*half_span,length,2*radius,V(x-half_span,y,z-radius)),
+                cylinder(radius,y,length,x+half_span,z))
+
+
+def make_hook(x):
+    """Wide capsule neck supports a thicker, softly rounded retaining head."""
+    span=P['hook_capsule_half_span']
+    neck=capsule(P['hook_neck_radius'],span,P['hook_mount_y'],
+                 P['hook_neck_end_y']-P['hook_mount_y'],x,P['hook_z'])
+    head=capsule(P['hook_head_radius'],span,P['hook_neck_end_y'],
+                 P['hook_head_end_y']-P['hook_neck_end_y'],x,P['hook_z'])
+    rims=[e for e in head.Edges if e.BoundBox.YLength<1e-6]
+    head=head.makeFillet(P['hook_head_edge_fillet'],rims)
+    return join(neck,head)
+
+
+def make_hook_backing(x):
+    """One continuous leg-to-hook outline, with tangent curved transitions.
+
+    The former capsule-shaped patch is replaced by a web whose lower edge
+    leaves the foot tangent to its slope and joins the flat backing smoothly.
+    """
+    radius=P['hook_head_radius']+P['hook_backing_margin']
+    span=P['hook_capsule_half_span']
+    ax=-P['hook_backing_blend_x']
+    slope=(P['foot_drop']-3)/(P['foot_x']-25)
+    az=-P['foot_drop']+(ax+P['foot_x']-12)*slope
+    bottom=P['hook_z']-radius
+    a=(ax,az)
+    b=(x-span,bottom)
+    c=(x+span,bottom)
+    d=(0,P['opening_stop_bottom_z'])
+    def point(p):
+        return V(p[0],0,p[1])
+    def bezier(points):
+        curve=Part.BezierCurve()
+        curve.setPoles([point(p) for p in points])
+        # Equivalent B-spline representation keeps OpenCascade's Boolean
+        # self-interference checker stable on the tangent extruded surfaces.
+        return curve.toBSpline().toShape()
+    edges=[bezier([a,(ax+4,az+4*slope),(b[0]-5,bottom),b]),
+           Part.makeLine(point(b),point(c)),
+           bezier([c,(c[0]+3,bottom),(0,bottom+0.4),d])]
+    upper=[d,(0,P['opening_stop_top_z']),(x,P['opening_stop_top_z']),
+           (-13,-2),(-18,-4),a]
+    edges.extend(Part.makeLine(point(p),point(q)) for p,q in zip(upper,upper[1:]))
+    return Part.Face(Part.Wire(edges)).extrude(V(0,P['hook_mount_y'],0))
+
+
 def make_half(left):
     d, r = P['depth'], P['barrel_radius']
+    end_length, gap = 8.0, P['axial_clearance']
+    assert 0 < gap < d/2-end_length, 'Invalid hinge end-face clearance'
     # A rigid foot and upright, a load shelf above the axis, and a neck into the barrel.
     fx, fd = P['foot_x'], P['foot_drop']
     wi, wt, wh = P['wall_inner_x'], P['wall_thickness'], P['wall_top']
@@ -62,45 +117,48 @@ def make_half(left):
                       and any(abs(b.XMin-x)<1e-6 and abs(b.ZMin-z)<1e-6 for x,z in long_corners))
         end_plane=(b.YLength<1e-6 and (abs(b.YMin)<1e-6 or abs(b.YMin-d)<1e-6))
         outside_end=end_plane and (b.XMax<=-12.9 or b.ZMin>wh-1e-6)
-        if longitudinal or outside_end:
+        # Round the front after joining the web, so no old fillet seam remains
+        # buried in the new leg-to-backing transition.
+        if longitudinal or (outside_end and b.YMin>d-1e-6):
             perimeter.append(edge)
     body=body.makeFillet(P['outer_edge_fillet'],perimeter)
     if left:
-        body = body.cut(cylinder(r + 0.35, 8, d-16))
-        body = join(body, cylinder(r, 0, 8), cylinder(r, d-8, 8))
+        body = body.cut(cylinder(r + 0.35, end_length, d-2*end_length))
+        body = join(body, cylinder(r, 0, end_length),
+                    cylinder(r, d-end_length, end_length))
     else:
-        body = body.cut(cylinder(r + 0.35, -0.1, 8.4))
-        body = body.cut(cylinder(r + 0.35, d-8.3, 8.4))
-        body = join(body, cylinder(r, 8.3, d-16.6))
+        # Leave a real axial gap at BOTH supported end faces. Shorten only the
+        # central barrel so existing left bodies, axles and caps remain usable.
+        body = body.cut(cylinder(r + 0.35, -0.1, end_length+gap+0.1))
+        body = body.cut(cylinder(r + 0.35, d-end_length-gap, end_length+gap+0.1))
+        body = join(body, cylinder(r, end_length+gap, d-2*(end_length+gap)))
     body = body.cut(cylinder((P['pin_diameter'] + P['mechanism_clearance']) / 2,
                              -0.2, d + 0.4))
     # One shallow felt pocket on the inside face, not on the load-bearing root.
     body = body.cut(Part.makeBox(0.4, d-6, wh-30, V(-wi-0.4, 3, 30)))
     # Keep the front lower crossbar, and reverse its posts: shafts point +Y
     # from the back face into the stand. No lower platform or upright posts.
-    hooks = []
-    for x in P['hook_x']:
-        hooks += [cylinder(P['hook_neck_radius'],P['hook_mount_y'],
-                    P['hook_neck_end_y']-P['hook_mount_y'],-x,P['hook_z']),
-                  cylinder(P['hook_head_radius'],P['hook_neck_end_y'],
-                    P['hook_head_end_y']-P['hook_neck_end_y'],-x,P['hook_z'])]
-    # Under-axis integral shoulders meet at X=0 in the fully open position.
-    # Closing rotates them away from one another; no upper closing stop is used.
-    shoulder=prism([(-13.5,P['opening_stop_bottom_z']),
-                    (0,P['opening_stop_bottom_z']),(0,P['opening_stop_top_z']),
-                    (-10,P['opening_stop_top_z']),(-13,-2),(-18,-4)],
-                   0,P['opening_stop_depth'])
-    # A compact diagonal outer edge follows the legs without a pointed wing.
-    # Keep the lower edge and root transition rounded.
-    corners=[(-13.5,P['opening_stop_bottom_z']),(-10,P['opening_stop_top_z'])]
-    soften=[]
-    for edge in shoulder.Edges:
-        bounds=edge.BoundBox
-        if bounds.YLength>P['opening_stop_depth']-1e-6 and bounds.XLength<1e-6 and bounds.ZLength<1e-6:
-            if any(abs(bounds.XMin-x)<1e-6 and abs(bounds.ZMin-z)<1e-6 for x,z in corners):
-                soften.append(edge)
-    shoulder=shoulder.makeFillet(1.0,soften)
-    body = join(body, shoulder, *hooks)
+    hooks = [make_hook(-x) for x in P['hook_x']]
+    # The integral web also carries the original X=0 opening-stop face.
+    backings=[make_hook_backing(-x) for x in P['hook_x']]
+    body = join(body, *backings, *hooks)
+    front=[]
+    for edge in body.Edges:
+        b=edge.BoundBox
+        if b.YLength<1e-6 and abs(b.YMin)<1e-6:
+            if b.XMax<=-12.9 or b.ZMin>wh-1e-6 or (b.ZMax<-6 and b.XMax<-2):
+                front.append(edge)
+    body=body.makeFillet(P['outer_edge_fillet'],front)
+    rear=[e for e in body.Edges if e.BoundBox.YLength<1e-6
+          and abs(e.BoundBox.YMin-P['hook_mount_y'])<1e-6
+          and e.BoundBox.XMax<-2 and e.BoundBox.ZMax<-6
+          and not isinstance(e.Curve,(Part.BezierCurve,Part.BSplineCurve))]
+    body=body.makeFillet(P['hook_backing_edge_fillet'],rear)
+    # Tangent edge chains can carry the cosmetic rim fillet onto the stop.
+    # Restore its full, flat contact face after rounding the visible outline.
+    body=join(body,Part.makeBox(1.5,P['opening_stop_depth'],
+              P['opening_stop_top_z']-P['opening_stop_bottom_z'],
+              V(-1.5,0,P['opening_stop_bottom_z'])))
     if not left:
         body = mirror(body)
     return body.cut(cylinder((P['pin_diameter']+P['mechanism_clearance'])/2,
@@ -172,10 +230,10 @@ def to_print(shape, back=False):
     return result
 
 
-def export_shape(shape, path):
+def export_shape(shape, path, linear=0.035):
     assert shape.isValid(), f'Invalid solid: {path}'
     assert len(shape.Solids) == 1, f'Disconnected solids: {path}: {len(shape.Solids)}'
-    mesh = MeshPart.meshFromShape(Shape=shape, LinearDeflection=0.035,
+    mesh = MeshPart.meshFromShape(Shape=shape, LinearDeflection=linear,
                                   AngularDeflection=0.13, Relative=False)
     mesh.write(str(path))
     bounds=shape.optimalBoundingBox(False)
@@ -204,22 +262,26 @@ def main():
     manifest = {'freecad_version': '.'.join(App.Version()[:3]), 'parts': []}
     print_shapes = []
     for name, shape in parts.items():
-        obj = doc.addObject('PartDesign::Feature', name.replace('-', '_'))
-        obj.Label = name
-        obj.Shape = shape
-        obj.addProperty('App::PropertyString', 'Purpose').Purpose = 'Calibration only; not a full laptop stand'
+        if not name.startswith('fit-'):
+            obj = doc.addObject('PartDesign::Feature', name.replace('-', '_'))
+            obj.Label = name
+            obj.Shape = shape
+            obj.addProperty('App::PropertyString', 'Purpose').Purpose = 'PLA prototype; physical performance unverified'
         # The now-flat front face sits on the bed, so inward posts grow upward.
         # The end cap prints on its smooth outside face; internal tongue is supported.
         printshape = to_print(shape,back=name=='axle-key')
-        record = export_shape(printshape, OUT / f'{name}.stl')
+        # A finer body mesh avoids crossed chords at the new curved rim.
+        record = export_shape(printshape, OUT / f'{name}.stl',
+                              linear=0.02 if name.startswith('mechanism-') else 0.035)
         record['name'] = name
         manifest['parts'].append(record)
         print_shapes.append((name, printshape))
     # Deliberately fixed, separate footprints, with 10mm outside margin.
-    placements = [(24,34), (100,34), (175,34), (197,34),
-                  (172,75), (202,75), (172,100)]
+    placements = [(24,34), (100,34), (175,34), (197,34)]
     plate = []
-    for (name, original), (x,y) in zip(print_shapes, placements):
+    # Assembly collection contains only the four parts used in the stand.
+    # Clearance coupons remain individual files and on the separate fit plate.
+    for (name, original), (x,y) in zip(print_shapes[:4], placements):
         shape = original.copy()
         shape.translate(V(x,y,0))
         plate.append(shape)
@@ -228,7 +290,7 @@ def main():
             if item['name'] == name:
                 item['plate_origin_mm'] = [x,y,0]
     mesh = MeshPart.meshFromShape(Shape=Part.makeCompound(plate),
-                                  LinearDeflection=0.035, AngularDeflection=0.13, Relative=False)
+                                  LinearDeflection=0.02, AngularDeflection=0.13, Relative=False)
     mesh.write(str(OUT / 'calibration-plate.stl'))
     doc.recompute()
     doc.saveAs(str(ROOT / 'cad/calibration.FCStd'))
@@ -244,7 +306,7 @@ def main():
     for name, angle in [('open',0),('loaded',P['sample_loaded_angle_deg'])]:
         for side, shape in [('left',left),('right',right)]:
             export_shape(assembly_pose(shape, angle, side=='left'),
-                         EVIDENCE / f'assembly-{name}-{side}.stl')
+                         EVIDENCE / f'assembly-{name}-{side}.stl',linear=0.02)
         h=P['foot_drop']*math.cos(math.radians(angle))-(P['foot_x']-12)*math.sin(math.radians(angle))
         axle=make_pin()
         axle.translate(V(0,0,h))

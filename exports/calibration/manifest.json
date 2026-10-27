@@ -3,13 +3,13 @@
   "parts": [
     {
       "file": "mechanism-left.stl",
-      "volume_mm3": 74331.17341393503,
+      "volume_mm3": 74960.2818819189,
       "size_mm": [
-        61.0,
-        82.00000000000001,
-        120.00000000000001
+        61.0000001,
+        82.00000010000001,
+        120.00000010000002
       ],
-      "triangles": 10450,
+      "triangles": 32278,
       "name": "mechanism-left",
       "plate_origin_mm": [
         24,
@@ -19,13 +19,13 @@
     },
     {
       "file": "mechanism-right.stl",
-      "volume_mm3": 81591.48050341794,
+      "volume_mm3": 82104.29115125601,
       "size_mm": [
         61.0,
-        82.00000000000001,
-        120.00000000000001
+        82.00000010000001,
+        120.00000010000002
       ],
-      "triangles": 9812,
+      "triangles": 31590,
       "name": "mechanism-right",
       "plate_origin_mm": [
         100,
@@ -74,12 +74,7 @@
         8.6
       ],
       "triangles": 1084,
-      "name": "fit-20",
-      "plate_origin_mm": [
-        172,
-        75,
-        0
-      ]
+      "name": "fit-20"
     },
     {
       "file": "fit-40.stl",
@@ -90,12 +85,7 @@
         8.6
       ],
       "triangles": 1472,
-      "name": "fit-40",
-      "plate_origin_mm": [
-        202,
-        75,
-        0
-      ]
+      "name": "fit-40"
     },
     {
       "file": "fit-60.stl",
@@ -106,12 +96,7 @@
         8.6
       ],
       "triangles": 1860,
-      "name": "fit-60",
-      "plate_origin_mm": [
-        172,
-        100,
-        0
-      ]
+      "name": "fit-60"
     }
   ]
 }

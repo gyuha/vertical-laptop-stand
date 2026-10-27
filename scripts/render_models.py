@@ -98,8 +98,28 @@ def render_print_assets():
         finish(name,[obj])
 
 
+def finish_hook_detail(objects):
+    # Isolate the real left body so the opposite wall cannot hide the neck and
+    # its backing in this oblique inspection view. Restore the full scene after.
+    hidden=[(obj,obj.hide_render) for obj in objects[1:]]
+    for obj,_ in hidden:
+        obj.hide_render=True
+    finish('hook-detail',objects[:1],
+           focus=(-P['hook_x'][0],P['hook_band_y'],P['foot_drop']+P['hook_z']),
+           scale=30,direction=(1.4,3,1))
+    for obj,state in hidden:
+        obj.hide_render=state
+
+
 def main():
     OUT.mkdir(exist_ok=True,parents=True)
+    if '--hook-only' in sys.argv:
+        reset()
+        objs=[load(OUT/f'assembly-open-{side}.stl',color)
+              for side,color in [('left',(0.30,0.40,0.53)),('right',(0.39,0.49,0.59))]]
+        bpy.context.view_layer.update()
+        finish_hook_detail(objs)
+        return
     if '--print-only' in sys.argv:
         render_print_assets()
         return
@@ -154,6 +174,7 @@ def main():
         band_z=sum(point[2] for point in points)/len(points)
         finish(f'inside-{state}',objs,focus=(0,P['hook_band_y'],band_z),scale=52,direction=(0,3,0))
         if state=='open':
+            finish_hook_detail(objs)
             finish('retainer-installed',objs,focus=(0,P['depth']+5.7,P['foot_drop']),
                    scale=18,direction=(-0.25,3,0.18))
     render_print_assets()

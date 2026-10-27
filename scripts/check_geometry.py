@@ -87,27 +87,85 @@ def kernel_check():
     for s in [left,right]:
         assert s.isValid() and len(s.Solids)==1
         s.check(True)
+    # Measure the actual mating annular faces, including their material overlap
+    # in X/Z, rather than trusting the clearance parameter or overall bounds.
+    hinge_end_gaps=[]
+    for end, left_y, right_y in [('front',8,8+p['axial_clearance']),
+                                 ('rear',p['depth']-8,p['depth']-8-p['axial_clearance'])]:
+        mating=[]
+        for body,y in [(left,left_y),(right,right_y)]:
+            point=Part.Vertex(App.Vector(0,y,5))
+            faces=[face for face in body.Faces if face.BoundBox.YLength<1e-6
+                   and face.distToShape(point)[0]<1e-6]
+            assert len(faces)==1,f'Missing {end} hinge mating face'
+            mating.append(faces[0])
+        measured=mating[0].distToShape(mating[1])[0]
+        assert abs(measured-p['axial_clearance'])<1e-6,f'{end} hinge end gap is {measured}'
+        hinge_end_gaps.append({'end':end,'measured_gap_mm':measured})
     long_edge_fillets=[face for face in left.Faces
                        if isinstance(face.Surface,Part.Cylinder)
                        and abs(face.Surface.Radius-p['outer_edge_fillet'])<1e-5
                        and face.BoundBox.YLength>p['depth']-3]
     assert len(long_edge_fillets)>=3,'Requested perimeter fillets are missing'
+    capsule_hooks=[]
     for x in p['hook_x']:
         mid_y=(p['hook_mount_y']+p['hook_neck_end_y'])/2
         assert left.isInside(App.Vector(-x,mid_y,p['hook_z']),1e-6,True), 'Reversed shaft missing'
         assert not left.isInside(App.Vector(-x,-1,p['hook_z']),1e-6,True), 'Hook points out of front'
         tip=Part.Vertex(App.Vector(-x,p['hook_head_end_y'],p['hook_z']))
         assert left.distToShape(tip)[0]<1e-6,'Hook tip not at the back face'
+        hook=cad.make_hook(-x)
+        assert hook.isValid() and len(hook.Solids)==1,'Disconnected capsule hook'
+        bounds=hook.optimalBoundingBox(False)
+        span,radius=p['hook_capsule_half_span'],p['hook_neck_radius']
+        section=Part.Face(hook.slice(App.Vector(0,1,0),mid_y)[0])
+        expected_area=4*span*radius+math.pi*radius**2
+        assert abs(section.Area-expected_area)<1e-5,'Capsule neck section is incomplete'
+        assert abs(section.BoundBox.XLength-2*(span+radius))<1e-5
+        assert abs(section.BoundBox.ZLength-2*radius)<1e-5
+        assert abs(bounds.XLength-2*(span+p['hook_head_radius']))<1e-5
+        assert abs(bounds.ZLength-2*p['hook_head_radius'])<1e-5
+        # Every part of the neck AND the head's projected outline must have
+        # backing behind it. The previous half-supported capsule fails here.
+        probe=cad.capsule(radius,span,p['hook_mount_y']-0.01,0.01,-x,p['hook_z'])
+        root_area=probe.common(left).Volume/0.01
+        assert probe.cut(left).Volume<1e-7,'Capsule neck overhangs the crossbar'
+        assert abs(root_area-expected_area)<1e-5,'Neck is not fully backed'
+        head_projection=cad.capsule(p['hook_head_radius'],span,
+                                    p['hook_mount_y']-0.01,0.01,-x,p['hook_z'])
+        assert head_projection.cut(left).Volume<1e-7,'Backing does not cover the capsule head outline'
+        capsule_hooks.append({'neck_width_mm':section.BoundBox.XLength,
+                              'neck_height_mm':section.BoundBox.ZLength,
+                              'neck_section_mm2':section.Area,
+                              'head_width_mm':bounds.XLength,'head_height_mm':bounds.ZLength,
+                              'head_thickness_mm':p['hook_head_end_y']-p['hook_neck_end_y'],
+                              'bonded_root_area_mm2':root_area,
+                              'neck_fully_backed':True,
+                              'head_projection_fully_backed':True,
+                              'capsule_coverage_width_mm':2*(span+p['hook_head_radius']+p['hook_backing_margin']),
+                              'capsule_coverage_height_mm':2*(p['hook_head_radius']+p['hook_backing_margin'])})
     for x in [-20,-15,-10,-7]:
         assert not left.isInside(App.Vector(x,16,-14),1e-6,True),'Unwanted lower hook platform remains'
-    for x in [-22,-20,-18]:
-        assert not left.isInside(App.Vector(x,2,-11),1e-6,True),'Pointed hook-wing material remains'
+    assert left.isInside(App.Vector(-20,2,-10.8),1e-6,True),'Leg-to-backing notch remains'
+    assert not left.isInside(App.Vector(-30,2,-18),1e-6,True),'Backing creates an outboard pointed wing'
     assert left.isInside(App.Vector(-16,2,-6.5),1e-6,True),'Diagonal support root is missing'
-    assert not left.isInside(App.Vector(-14.7,2,-11),1e-6,True),'Square vertical support edge remains'
+    assert left.isInside(App.Vector(-14.7,2,-11),1e-6,True),'Widened backing does not reach capsule outer end'
+    assert left.isInside(App.Vector(-17.6,2,-14),1e-6,True),'Continuous lower backing transition is missing'
+    backing=cad.make_hook_backing(-p['hook_x'][0])
+    curves=[e for e in backing.Edges if isinstance(e.Curve,Part.BSplineCurve)
+            and e.BoundBox.YLength<1e-6 and abs(e.BoundBox.YMin)<1e-6]
+    assert len(curves)==2,'Continuous backing transition curves are missing'
+    leg_curve=min(curves,key=lambda e:e.BoundBox.XMin)
+    tangent=leg_curve.tangentAt(leg_curve.FirstParameter)
+    slope=(p['foot_drop']-3)/(p['foot_x']-25)
+    assert abs(tangent.z/tangent.x-slope)<1e-6,'Backing is not tangent to the leg slope'
+    assert abs(leg_curve.tangentAt(leg_curve.LastParameter).z)<1e-6,'Lower backing does not join the flat smoothly'
     common=[]
     floor=[]
     laptop_contacts=[]
     band_clearances=[]
+    backing_floor_clearances=[]
+    backings=[cad.make_hook_backing(-x) for x in p['hook_x']]
     for side in [left,right]:
         assert side.BoundBox.YMin>=-1e-6 and side.BoundBox.YMax<=p['depth']+1e-6, 'Front hook protrusion remains'
         assert abs(side.BoundBox.YLength-p['depth'])<1e-6, 'Stand width differs from requested depth'
@@ -118,6 +176,10 @@ def kernel_check():
         volume=a.common(b).Volume
         common.append(volume)
         floor.append(min(a.BoundBox.ZMin,b.BoundBox.ZMin))
+        for backing in backings:
+            clearance=cad.assembly_pose(backing,angle,True).optimalBoundingBox(False).ZMin
+            assert clearance>1.0,'Capsule backing is too close to the floor'
+            backing_floor_clearances.append(clearance)
         theta=math.radians(angle)
         h=p['foot_drop']*math.cos(theta)-(p['foot_x']-12)*math.sin(theta)
         half=p['laptop_thickness']/2
@@ -168,6 +230,9 @@ def kernel_check():
     extra_a=cad.assembly_pose(left,extra_angle,True)
     extra_b=cad.assembly_pose(right,extra_angle,False)
     assert extra_a.common(extra_b).Volume<1e-5,'Unwanted closing stop remains'
+    extra_wire=Part.makePolygon(cad.band_path(0,extra_angle))
+    extra_band_clearance=min(extra_wire.distToShape(s)[0] for s in [extra_a,extra_b])-p['band_wire_radius']
+    assert extra_band_clearance>0.05,'Capsule band catches the body beyond the sample loaded pose'
     # Verify JSON dimensions correspond to material on the exported bodies.
     for point in [(-p['foot_x']+12,16,-p['foot_drop']),
                   (-p['wall_inner_x']-0.4,16,p['wall_top'])]:
@@ -185,6 +250,13 @@ def kernel_check():
         if hasattr(m,'hasSelfIntersections'):
             assert not m.hasSelfIntersections(), f'Mesh self intersections: {path}'
             self_intersections.append(path.name)
+    layout=App.openDocument(str(ROOT/'cad/calibration.FCStd'))
+    layout_labels=[obj.Label for obj in layout.Objects if hasattr(obj,'Shape')]
+    assert set(layout_labels)=={'mechanism-left','mechanism-right','axle-6mm','axle-key'}, 'Optional fit rings remain in the assembly CAD collection'
+    App.closeDocument(layout.Name)
+    step_layout=Part.Shape()
+    step_layout.read(str(ROOT/'exports/calibration/calibration.step'))
+    assert len(step_layout.Solids)==4,'Optional fit rings remain in the assembly STEP collection'
     # The main axle inserts parallel to Y after the two bodies mate.
     insertion=[]
     for i in range(81):
@@ -221,18 +293,23 @@ def kernel_check():
     pin.translate(App.Vector(0,0.3,0))
     assert pin.common(left).Volume>0.01,'Front flange does not retain axle'
     return {'max_body_overlap_mm3':max(common), 'minimum_floor_clearance_mm':min(floor),
+            'hinge_end_face_gaps':hinge_end_gaps,
             'pose_samples':len(common),'physical_stop_checks':outside,
             'opening_stop_contact_area_mm2':shoulder_contact.Area,
             'opening_stop_contact_bounds':str(shoulder_contact.BoundBox),
             'no_closing_limiter_check_deg':extra_angle,
+            'extra_pose_band_surface_clearance_mm':extra_band_clearance,
             'internal_band_paths_checked':len(band_clearances),
             'minimum_band_surface_clearance_mm':min(band_clearances),
             'hook_direction':[0,1,0],
             'hook_mount_y_mm':p['hook_mount_y'],
             'hook_tip_y_mm':p['hook_head_end_y'],
+            'capsule_hooks':capsule_hooks,
+            'minimum_backing_floor_clearance_mm':min(backing_floor_clearances),
             'lower_hook_platform_removed':True,
             'pointed_hook_wings_removed':True,
-            'hook_support_style':'diagonal outer sides with R1mm transitions',
+            'hook_support_style':'continuous leg-to-backing outline with tangent Bezier transitions',
+            'backing_transition_curve_count':len(curves),
             'outer_edge_fillet_radius_mm':p['outer_edge_fillet'],
             'long_perimeter_fillet_faces':len(long_edge_fillets),
             'stand_front_to_back_width_mm':left.BoundBox.YLength,
@@ -244,6 +321,8 @@ def kernel_check():
 
 
 def motion_check(p):
+    sys.path.insert(0,str(ROOT/'cad'))
+    from band_geometry import band_centerline
     rows=[]
     for i in range(33):
         angle=p['sample_loaded_angle_deg']*i/32
@@ -253,21 +332,26 @@ def motion_check(p):
         pad_proud=p['felt_thickness']-0.4
         gap=2*((p['wall_inner_x']-pad_proud)*math.cos(t)-p['wall_top']*math.sin(t))
         hook_clearance=min(h+x*math.sin(t)+p['hook_z']*math.cos(t)-p['hook_head_radius']
+                           -p['hook_capsule_half_span']*abs(math.sin(t))
                            for x in p['hook_x'])
         spans=[2*(x*math.cos(t)-p['hook_z']*math.sin(t)) for x in p['hook_x']]
         # A horizontal inward force F at a left anchor gives tau_y=z*F (<0),
         # opposite the left body's positive closing rotation. Unit force is enough
         # to check sign; stiffness/preload and friction remain physically unmeasured.
         torque_per_newton=[x*math.sin(t)+p['hook_z']*math.cos(t) for x in p['hook_x']]
+        paths=[band_centerline(p,i,angle) for i in range(len(p['hook_x']))]
+        band_lengths=[sum(math.dist(a,b) for a,b in zip(path,path[1:])) for path in paths]
         assert all(x<0 for x in torque_per_newton), 'Band torque reversed'
         assert hook_clearance>1.0, f'Insufficient lower-hook clearance: {hook_clearance}'
         rows.append({'angle_deg':angle,'hinge_height_mm':h,'felt_gap_mm':gap,
                      'hook_clearance_mm':hook_clearance,'band_spans_mm':spans,
+                     'band_path_lengths_mm':band_lengths,
                      'opening_torque_mm_per_N':torque_per_newton})
     for a,b in zip(rows,rows[1:]):
         assert b['hinge_height_mm']<a['hinge_height_mm']
         assert b['felt_gap_mm']<a['felt_gap_mm']
         assert all(y>x for x,y in zip(a['band_spans_mm'],b['band_spans_mm']))
+        assert all(y>x for x,y in zip(a['band_path_lengths_mm'],b['band_path_lengths_mm'])), 'Capsule band does not restore opening'
     assert rows[0]['felt_gap_mm']>p['laptop_thickness']>rows[-1]['felt_gap_mm']
     # Cradle face x=-10,z=9: downward force causes closing, and the face descends.
     rows0=9+p['foot_drop']
@@ -290,7 +374,7 @@ def main():
     out=ROOT/'exports/calibration'
     manifest=json.loads((out/'manifest.json').read_text())
     checks=[inspect_mesh(out/p['file']) for p in manifest['parts']]
-    checks += [inspect_mesh(out/'calibration-plate.stl',7),inspect_mesh(out/'fit-plate.stl',5)]
+    checks += [inspect_mesh(out/'calibration-plate.stl',4),inspect_mesh(out/'fit-plate.stl',5)]
     # Fixed plate placement is measured from the actual STL, including the excluded
     # front-left X1C rectangle (x<18,y<28) and a 5mm edge margin.
     for filename in ['calibration-plate.stl','fit-plate.stl']:
@@ -311,6 +395,7 @@ def main():
     report={'result':'pass','scope':'digital calibration geometry only; physical performance unverified',
             'parameters_sha256':hashlib.sha256((ROOT/'cad/parameters.json').read_bytes()).hexdigest(),
             'generator_sha256':hashlib.sha256((ROOT/'cad/build_calibration.py').read_bytes()).hexdigest(),
+            'band_geometry_sha256':hashlib.sha256((ROOT/'cad/band_geometry.py').read_bytes()).hexdigest(),
             'artifact_sha256':{f.name:hashlib.sha256(f.read_bytes()).hexdigest()
                                for f in sorted(out.glob('*.stl'))},
             'meshes':checks,'solid_assembly':solid,'motion':motion}
