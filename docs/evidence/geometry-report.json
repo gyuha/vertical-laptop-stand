@@ -1,19 +1,19 @@
 {
   "result": "pass",
   "scope": "digital calibration geometry only; physical performance unverified",
-  "parameters_sha256": "09662c00beda487cf2b4571873712430376897001410476afcc3f6bf9555d074",
+  "parameters_sha256": "62ef8bb60f9ab7d19a991a0d409b9aa855925f6c095454f906a2599a7ae0ff72",
   "generator_sha256": "0c27ab4be4195e95244a94b804a1d36c92f3596a832ebc4fa3dca1b8d2180bf1",
   "band_geometry_sha256": "b5760cc6f5f526dfca901e8c4c64d1312ceef58d348ca0505a1c8a10d1d6400c",
   "artifact_sha256": {
     "axle-6mm.stl": "0c83723ec26f2cbd5a1efd7b04a7b9a6888649e67d982e0f93f269d63d13cda3",
     "axle-key.stl": "6eebf405f90395a260d583bdbdd1d451b7baf2ae7d81bbda1236f41c87e731a2",
-    "calibration-plate.stl": "d928a41fd8760da821b941e6e34a900996df9a7a0b8ce4d5fd8b6640cf20e047",
+    "calibration-plate.stl": "64e3e6a96a7b9292adbd097bd04b27648d3e1d49acf284de517ca179a7bb3caa",
     "fit-20.stl": "c447e6fcb7b49359d580ec03e672bc2f316bd5f212849d29802427ac7194be33",
     "fit-40.stl": "d7eb9615d699d752c5bf0271654ae11317e7170a7b6bd102ddcaa37ba1ab4d9d",
     "fit-60.stl": "c6b6816290f381339421cbe2150040e11cd8f88fa59c9d2f9acff51cda39aec0",
     "fit-plate.stl": "1835d02d217cd25a45d86033122a17c90f703625c36734bbbe4466392b8df155",
     "mechanism-left.stl": "c5457ec083288ef7a16fd4720b01d195760af66130dc2ae29513eeb7b02dc251",
-    "mechanism-right.stl": "11e2c7a41ebb35238c79fa8637e6c199ead0ebf9297c74e05b0db20ef06aa4fb"
+    "mechanism-right.stl": "36e435f5806e40c5efc68fd05a9b092eba6556964364e393d991f17a60e0f76c"
   },
   "meshes": [
     {
@@ -39,7 +39,7 @@
       "file": "mechanism-right.stl",
       "triangles": 31590,
       "components": 1,
-      "volume_mm3": 82099.597,
+      "volume_mm3": 82166.008,
       "bounds_mm": [
         [
           0.00266,
@@ -153,7 +153,7 @@
       "file": "calibration-plate.stl",
       "triangles": 81466,
       "components": 4,
-      "volume_mm3": 161029.414,
+      "volume_mm3": 161095.825,
       "bounds_mm": [
         [
           24.0,
@@ -194,11 +194,11 @@
     "hinge_end_face_gaps": [
       {
         "end": "front",
-        "measured_gap_mm": 0.9999999999999991
+        "measured_gap_mm": 0.5999999999999996
       },
       {
         "end": "rear",
-        "measured_gap_mm": 1.0
+        "measured_gap_mm": 0.5999999999999943
       }
     ],
     "pose_samples": 33,

@@ -4,7 +4,7 @@
   "diametral_clearances": [0.2, 0.4, 0.6],
   "mechanism_clearance": 0.4,
   "depth": 120.0,
-  "axial_clearance": 1.0,
+  "axial_clearance": 0.6,
   "barrel_radius": 6.0,
   "foot_x": 55.0,
   "foot_drop": 22.0,
