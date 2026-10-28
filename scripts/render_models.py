@@ -55,7 +55,7 @@ def load(path, color, original=False):
     return obj
 
 
-def finish(name, objects, front=False, focus=None, scale=None, direction=None):
+def finish(name, objects, front=False, focus=None, scale=None, direction=None, floor=True):
     for obj in list(bpy.context.scene.objects):
         if obj.get('render_helper'):
             bpy.data.objects.remove(obj,do_unlink=True)
@@ -73,10 +73,14 @@ def finish(name, objects, front=False, focus=None, scale=None, direction=None):
     cam.data.type='ORTHO'
     cam.data.ortho_scale=scale if scale is not None else span*(1.22 if front else 1.45)
     bpy.context.scene.camera=cam
-    bpy.ops.mesh.primitive_plane_add(size=span*200,location=(0,0,lo.z-0.15))
-    bpy.context.object['render_helper']=True
-    bpy.context.object.data.materials.append(material('floor',(0.90,0.91,0.90)))
-    for offset,energy,size in [((0,-1,3),1200,2),((2,1,2),700,2)]:
+    if floor:
+        bpy.ops.mesh.primitive_plane_add(size=span*200,location=(0,0,lo.z-0.15))
+        bpy.context.object['render_helper']=True
+        bpy.context.object.data.materials.append(material('floor',(0.90,0.91,0.90)))
+    lights=[((0,-1,3),1200,2),((2,1,2),700,2)]
+    if direction is not None and direction[2]<0:
+        lights.append(((0,-1,-3),900,2))
+    for offset,energy,size in lights:
         bpy.ops.object.light_add(type='AREA',location=center+Vector(offset)*span)
         light=bpy.context.object
         light['render_helper']=True

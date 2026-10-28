@@ -8,6 +8,7 @@ __pycache__/
 .DS_Store
 .forge/*
 !.forge/CONTEXT.md
+!.forge/followups.md
 !.forge/config.json
 !.forge/adr/
 !.forge/retro/

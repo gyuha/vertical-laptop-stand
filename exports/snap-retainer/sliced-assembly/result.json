@@ -1,0 +1,61 @@
+{
+  "error_string": "Success.",
+  "export_time": 555,
+  "layer_height": 0.20000000298023224,
+  "plate_index": 0,
+  "prepare_time": 36,
+  "return_code": 0,
+  "sliced_plates": [
+    {
+      "feature_type_times": {
+        "Bottom surface": 24.301851272583008,
+        "Bridge": 26.93688201904297,
+        "Brim": 85.98527526855469,
+        "Custom": 483.4792785644531,
+        "Flush": 29.0,
+        "Gap infill": 441.9977722167969,
+        "Inner wall": 9092.2255859375,
+        "Internal solid infill": 119.93352508544922,
+        "Outer wall": 5289.32421875,
+        "Overhang wall": 70.98491668701172,
+        "Sparse infill": 1551.433349609375,
+        "Support": 968.6470336914062,
+        "Support interface": 57.03446960449219,
+        "Support transition": 22.319374084472656,
+        "Top surface": 91.0667724609375,
+        "Travel": 1806.02978515625,
+        "Undefined": 1790.5562744140625
+      },
+      "filament_change_times": 0,
+      "filaments": [
+        {
+          "filament_id": "GFL99",
+          "id": 1,
+          "main_used_g": 175.50831604003906,
+          "total_used_g": 175.50831604003906
+        }
+      ],
+      "generate_support_material_time": 336,
+      "id": 1,
+      "infill_time": 175,
+      "layer_filament_change": 0,
+      "main_predication": 19618.021484375,
+      "make_perimeters_time": 690,
+      "obj_cached_cnt": 0,
+      "sliced_time": 1833,
+      "sliced_time_with_cache": 512,
+      "total_predication": 20143.99609375,
+      "triangle_count": 88332,
+      "warning_message": ""
+    }
+  ],
+  "sparse_infill_density": 25.0,
+  "wall_loops": 6,
+  "clip_region_support_extrusions": 0,
+  "input_stl_sha256": "68103ad0fa92126eb016664cc67c92c65512ad7642926dda5c4a307da22fb6e0",
+  "profile_sha256": {
+    "machine": "134804b2209e6413b0e54614367e15792e0648446258dffab8406604093de857",
+    "process": "df767fd07f0eef8f2049ca539758c3ba81dd0c41980b83218a792c8e51d11328",
+    "filament": "22f592f7e124e0bc791eb858303690f606a12cc771fccddb596ac379e9499706"
+  }
+}

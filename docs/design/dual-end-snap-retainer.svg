@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="620" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+<title id="title">양끝 분리 연결부와 안쪽 열린 클립 — 설계 개념</title>
+<desc id="desc">120mm 폭의 양끝에 짧은 연결부와 봉을 각각 두고, 두 클립은 가운데 빈 공간을 향한다. 봉의 둥근 머리는 바깥쪽에 놓인다. 치수와 탄성은 아직 검증하지 않은 계획도다.</desc>
+<defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto-start-reverse"><path d="M0 0L7 3.5L0 7" fill="#667f87"/></marker></defs>
+<rect width="1200" height="620" fill="#f6f7f5"/>
+<g font-family="system-ui,-apple-system,sans-serif" fill="#2d454d">
+<text x="48" y="54" font-size="17">설계 개념 · 출력용 CAD 아님 · 비례와 치수 미확정</text>
+<text x="48" y="103" font-size="31" font-weight="700">양끝의 짧은 연결부 + 안쪽 열린 클립</text>
+<path d="M140 165H1060" fill="none" stroke="#667f87" stroke-width="2" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+<path d="M140 151V188M1060 151V188" stroke="#667f87" stroke-width="2"/>
+<text x="600" y="148" text-anchor="middle" font-size="19">기존 앞뒤 폭 120mm 유지</text>
+<rect x="140" y="213" width="920" height="25" rx="7" fill="#c5d0d4"/>
+<rect x="140" y="372" width="920" height="25" rx="7" fill="#c5d0d4"/>
+<g fill="#7898a5" stroke="#456778" stroke-width="2"><rect x="140" y="254" width="83" height="101" rx="12"/><rect x="229" y="254" width="77" height="101" rx="12"/><rect x="894" y="254" width="77" height="101" rx="12"/><rect x="977" y="254" width="83" height="101" rx="12"/></g>
+<g fill="#d9bc7c" stroke="#967a44" stroke-width="2"><rect x="119" y="294" width="212" height="21" rx="4"/><rect x="869" y="294" width="212" height="21" rx="4"/><rect x="119" y="282" width="12" height="45" rx="4"/><rect x="1069" y="282" width="12" height="45" rx="4"/></g>
+<g stroke="#337377" stroke-width="10" stroke-linecap="round" fill="none"><path d="M313 325A27 27 0 1 1 335 325"/><path d="M865 325A27 27 0 1 1 887 325"/></g>
+<g stroke="#337377" stroke-width="9"><path d="M324 278V296"/><path d="M876 278V296"/></g>
+<rect x="379" y="258" width="442" height="99" fill="none" stroke="#9ab0b5" stroke-width="2" stroke-dasharray="8 7"/>
+<text x="600" y="299" text-anchor="middle" font-size="24" font-weight="650">가운데 긴 원통·긴 축 없음</text>
+<text x="600" y="332" text-anchor="middle" font-size="18">지지벽과 하중 받침은 유지</text>
+<text x="123" y="438" text-anchor="middle" font-size="18">바깥 둥근 머리</text><text x="1077" y="438" text-anchor="middle" font-size="18">바깥 둥근 머리</text>
+<text x="324" y="438" text-anchor="middle" font-size="19" fill="#28666a">안쪽 클립 ①</text><text x="876" y="438" text-anchor="middle" font-size="19" fill="#28666a">안쪽 클립 ②</text>
+<text x="48" y="510" font-size="19">봉은 기존 지름·원형 머리·끝 슬롯 형태를 유지하고 각 연결부에 맞춰 길이 조정</text>
+<text x="48" y="546" font-size="18">기본 구성: 몸체 2개 + 짧은 봉 2개 + 열린 클립 2개 = 조립 부품 6개</text>
+<text x="48" y="583" font-size="16" fill="#667b81">기존 고무줄 걸이·하단 벌림 턱·폭120mm·끝면 여유0.6mm 유지 / 실제 끼움·탄성은 출력 후 확인</text>
+</g>
+</svg>

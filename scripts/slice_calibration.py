@@ -1,6 +1,8 @@
 """Resolve Bambu's shipped profile inheritance and slice locally, without printing."""
 import argparse
+import hashlib
 import json
+import re
 from pathlib import Path
 import subprocess
 
@@ -8,6 +10,30 @@ ROOT=Path(__file__).resolve().parents[1]
 APP=Path('/Applications/BambuStudio.app/Contents')
 PROFILES=APP/'Resources/profiles/BBL'
 OUT=ROOT/'exports/calibration'
+
+
+def clip_support_moves(gcode,kit):
+    """Count actual support extrusion endpoints in isolated clip footprints."""
+    origins=[(175,58),(193,58)] if kit=='snap-retainer' else [(120,34)]
+    feature='';relative=True;last_e=0.0;x=y=0.0;count=0
+    for raw in gcode.splitlines():
+        if raw.startswith('; FEATURE: '):
+            feature=raw[11:].strip()
+        code=raw.split(';',1)[0].strip()
+        if code=='M83': relative=True
+        if code=='M82': relative=False
+        values={k:float(value) for k,value in re.findall(r'([XYE])(-?\d+(?:\.\d+)?)',code)}
+        if code.startswith('G92') and 'E' in values:
+            last_e=values['E'];continue
+        if not re.match(r'^G[01](?:\s|$)',code):
+            continue
+        x=values.get('X',x);y=values.get('Y',y)
+        delta=values.get('E',0) if relative else values.get('E',last_e)-last_e
+        if 'E' in values: last_e=values['E']
+        if delta>1e-8 and feature.startswith('Support'):
+            if any(px<=x<=px+9.13 and py<=y<=py+10.01 for px,py in origins):
+                count+=1
+    return count
 
 
 def profile(name,kind,stack=()):
@@ -27,9 +53,16 @@ def profile(name,kind,stack=()):
 
 def main():
     parser=argparse.ArgumentParser()
-    parser.add_argument('--kit',choices=['fit','mechanism'],required=True)
+    parser.add_argument('--kit',choices=['fit','mechanism','snap-retainer','snap-fit'],required=True)
     args=parser.parse_args()
-    output=OUT/f'sliced-{args.kit}'
+    snap=args.kit.startswith('snap-')
+    model_root=ROOT/'exports/snap-retainer' if snap else OUT
+    if snap:
+        model='assembly-plate.stl' if args.kit=='snap-retainer' else 'snap-fit-plate.stl'
+        output=model_root/('sliced-assembly' if args.kit=='snap-retainer' else 'sliced-fit')
+    else:
+        model='fit-plate.stl' if args.kit=='fit' else 'calibration-plate.stl'
+        output=OUT/f'sliced-{args.kit}'
     output.mkdir(exist_ok=True,parents=True)
     machine=profile('Bambu Lab X1 Carbon 0.4 nozzle','machine')
     process=profile('0.20mm Strength @BBL X1C','process')
@@ -43,13 +76,12 @@ def main():
         (output/f'{name}.json').write_text(json.dumps(data,indent=2)+'\n')
     assert float(filament['filament_density'][0])>1
     assert machine.get('machine_start_gcode'), 'Unresolved start gcode template'
-    model='fit-plate.stl' if args.kit=='fit' else 'calibration-plate.stl'
     command=[str(APP/'MacOS/BambuStudio'),'--debug','2',
              '--load-settings',str(output/'machine.json')+';'+str(output/'process.json'),
              '--load-filaments',str(output/'filament.json'),
              '--arrange','0','--orient','0','--slice','0',
              '--export-3mf',f'{args.kit}-x1c-pla.3mf',
-             '--outputdir',str(output),str(OUT/model)]
+             '--outputdir',str(output),str(model_root/model)]
     proc=subprocess.run(command,cwd=ROOT,text=True,capture_output=True)
     (output/'slicer.log').write_text(proc.stdout+proc.stderr)
     if proc.returncode:
@@ -59,6 +91,13 @@ def main():
     gcode=(output/'plate_1.gcode').read_text()
     assert '; filament_density: 0' not in gcode
     assert '; machine_start_gcode = \n' not in gcode
+    if snap:
+        result['clip_region_support_extrusions']=clip_support_moves(gcode,args.kit)
+        assert result['clip_region_support_extrusions']==0,'Support was generated under a flat clip'
+        result['input_stl_sha256']=hashlib.sha256((model_root/model).read_bytes()).hexdigest()
+        result['profile_sha256']={name:hashlib.sha256((output/f'{name}.json').read_bytes()).hexdigest()
+                                  for name in ['machine','process','filament']}
+        (output/'result.json').write_text(json.dumps(result,indent=2)+'\n')
     print(json.dumps(result,indent=2))
 
 

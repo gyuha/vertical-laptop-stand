@@ -1,0 +1,91 @@
+{
+  "units": "mm",
+  "base_parameters_sha256": "62ef8bb60f9ab7d19a991a0d409b9aa855925f6c095454f906a2599a7ae0ff72",
+  "module_length_mm": 20.0,
+  "barrel_free_interval_mm": [
+    20.0,
+    100.0
+  ],
+  "actual_central_clear_interval_mm": [
+    23.6,
+    96.4
+  ],
+  "actual_central_clear_length_mm": 72.8,
+  "pin_length_argument_mm": 19.1,
+  "pin_total_length_mm": 25.6,
+  "clip_bearing_face_gap_mm": 0.25,
+  "assembly_quantities": {
+    "body-left": 1,
+    "body-right": 1,
+    "short-pin": 2,
+    "snap-clip": 2
+  },
+  "parts": [
+    {
+      "file": "body-left.stl",
+      "volume_mm3": 74960.28188191891,
+      "size_mm": [
+        61.0000001,
+        82.00000010000001,
+        120.00000010000002
+      ],
+      "triangles": 32278,
+      "name": "body-left"
+    },
+    {
+      "file": "body-right.stl",
+      "volume_mm3": 75525.15702426514,
+      "size_mm": [
+        61.0,
+        82.00000010000001,
+        120.00000010000002
+      ],
+      "triangles": 32382,
+      "name": "body-right"
+    },
+    {
+      "file": "short-pin.stl",
+      "volume_mm3": 795.6479568324797,
+      "size_mm": [
+        10.000000100000001,
+        10.0000001,
+        25.6
+      ],
+      "triangles": 10572,
+      "name": "short-pin"
+    },
+    {
+      "file": "snap-clip.stl",
+      "volume_mm3": 80.10998654797707,
+      "size_mm": [
+        9.122983346207416,
+        10.0,
+        1.8000000000000014
+      ],
+      "triangles": 1352,
+      "name": "snap-clip"
+    },
+    {
+      "file": "trial-left.stl",
+      "volume_mm3": 5132.203577368147,
+      "size_mm": [
+        28.0,
+        22.000000000000004,
+        20.000000000000004
+      ],
+      "triangles": 2104,
+      "name": "trial-left"
+    },
+    {
+      "file": "trial-right.stl",
+      "volume_mm3": 5414.641153418694,
+      "size_mm": [
+        28.000000000000004,
+        22.000000000000004,
+        20.000000000000004
+      ],
+      "triangles": 2080,
+      "name": "trial-right"
+    }
+  ]
+}

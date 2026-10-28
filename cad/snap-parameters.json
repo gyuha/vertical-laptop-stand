@@ -1,0 +1,15 @@
+{
+  "module_length": 20.0,
+  "clip_thickness": 1.8,
+  "clip_outer_radius": 5.0,
+  "clip_inner_radius": 3.2,
+  "clip_mouth_width": 5.0,
+  "clip_mouth_start_x": 1.6,
+  "clip_finger_start_x": -4.4,
+  "clip_finger_end_x": 1.8,
+  "clip_finger_height": 1.6,
+  "clip_corner_radius": 0.25,
+  "clip_face_clearance": 0.25,
+  "slot_clock_angle_deg": -90.0,
+  "body_mesh_deflection": 0.02
+}
