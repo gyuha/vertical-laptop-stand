@@ -363,9 +363,13 @@ def motion_check(p):
 
 def main():
     parser=argparse.ArgumentParser()
-    parser.add_argument('--target',choices=['calibration','stand','snap-retainer'],required=True)
+    parser.add_argument('--target',choices=['calibration','stand','snap-retainer','print-in-place'],required=True)
     parser.add_argument('--kernel',action='store_true')
     args=parser.parse_args()
+    if args.target=='print-in-place':
+        from check_print_in_place import main as check_pip
+        check_pip(args.kernel)
+        return
     if args.target=='snap-retainer':
         from check_snap_retainer import main as check_snap
         check_snap(args.kernel)

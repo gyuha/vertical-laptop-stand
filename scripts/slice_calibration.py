@@ -36,6 +36,18 @@ def clip_support_moves(gcode,kit):
     return count
 
 
+def support_moves(gcode):
+    """Count support extrusion moves anywhere on the plate."""
+    feature='';count=0
+    for raw in gcode.splitlines():
+        if raw.startswith('; FEATURE: '):
+            feature=raw[11:].strip()
+        code=raw.split(';',1)[0].strip()
+        if feature.startswith('Support') and re.match(r'^G[01]\s.*E\d*\.?\d+',code):
+            count+=1
+    return count
+
+
 def profile(name,kind,stack=()):
     assert name not in stack, f'Profile cycle: {name}'
     path=PROFILES/kind/(name+'.json')
@@ -53,11 +65,16 @@ def profile(name,kind,stack=()):
 
 def main():
     parser=argparse.ArgumentParser()
-    parser.add_argument('--kit',choices=['fit','mechanism','snap-retainer','snap-fit'],required=True)
+    parser.add_argument('--kit',choices=['fit','mechanism','snap-retainer','snap-fit','print-in-place','print-in-place-trial'],required=True)
     args=parser.parse_args()
     snap=args.kit.startswith('snap-')
+    in_place=args.kit.startswith('print-in-place')
     model_root=ROOT/'exports/snap-retainer' if snap else OUT
-    if snap:
+    if in_place:
+        model_root=ROOT/'exports/print-in-place'
+        model='assembly-plate.stl' if args.kit=='print-in-place' else 'hinge-trial.stl'
+        output=model_root/('sliced-assembly' if args.kit=='print-in-place' else 'sliced-trial')
+    elif snap:
         model='assembly-plate.stl' if args.kit=='snap-retainer' else 'snap-fit-plate.stl'
         output=model_root/('sliced-assembly' if args.kit=='snap-retainer' else 'sliced-fit')
     else:
@@ -71,6 +88,9 @@ def main():
                     'support_type':'normal(auto)','support_on_build_plate_only':'0',
                     'brim_type':'outer_only','brim_width':'3','brim_object_gap':'0.15',
                     'skirt_loops':'0'})
+    if in_place:
+        # Support inside an assembled hinge could never be removed.
+        process['enable_support']='0'
     machine['curr_bed_type']='Textured PEI Plate'
     for name,data in [('machine',machine),('process',process),('filament',filament)]:
         (output/f'{name}.json').write_text(json.dumps(data,indent=2)+'\n')
@@ -91,9 +111,14 @@ def main():
     gcode=(output/'plate_1.gcode').read_text()
     assert '; filament_density: 0' not in gcode
     assert '; machine_start_gcode = \n' not in gcode
+    if in_place:
+        result['enable_support']=process['enable_support']
+        result['support_extrusions']=support_moves(gcode)
+        assert result['support_extrusions']==0,'Support was generated on a print-in-place plate'
     if snap:
         result['clip_region_support_extrusions']=clip_support_moves(gcode,args.kit)
         assert result['clip_region_support_extrusions']==0,'Support was generated under a flat clip'
+    if snap or in_place:
         result['input_stl_sha256']=hashlib.sha256((model_root/model).read_bytes()).hexdigest()
         result['profile_sha256']={name:hashlib.sha256((output/f'{name}.json').read_bytes()).hexdigest()
                                   for name in ['machine','process','filament']}

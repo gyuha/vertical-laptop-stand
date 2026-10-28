@@ -1,0 +1,226 @@
+{
+  "result": "pass",
+  "scope": "digital geometry only; physical print-in-place release and wear unverified",
+  "source_sha256": {
+    "cad/parameters.json": "62ef8bb60f9ab7d19a991a0d409b9aa855925f6c095454f906a2599a7ae0ff72",
+    "cad/print-in-place-parameters.json": "c74bf16e150140ca5cc7204e3c8cbd6614b78216f206b0ada82977acda5bdaba",
+    "cad/build_calibration.py": "0c27ab4be4195e95244a94b804a1d36c92f3596a832ebc4fa3dca1b8d2180bf1",
+    "cad/build_print_in_place.py": "c3a4469415324bb3146d4c0e35a2d63b6bdcbd2d1dd9d66d4f30a5bc1f920d70",
+    "cad/band_geometry.py": "b5760cc6f5f526dfca901e8c4c64d1312ceef58d348ca0505a1c8a10d1d6400c",
+    "scripts/check_print_in_place.py": "df2102007b5c17d609f892ca94c81bbff812d4486c7bb2d134284233931eb2ab"
+  },
+  "artifact_sha256": {
+    "assembly-plate.stl": "195dbcd56f919f02a6d9ff2474a3930b0436ce11d6e77ab22bafc095c0244868",
+    "assembly-plate.3mf": "32016b40a13e0b7f3e8fc081e50b14208d70283ab82e01cb4612ca39b4dc84c2",
+    "assembly-plate.step": "e6e8f4cce984abefe8022b8a4d600b1590fa40170a9a1ebf3630db94b5055a00",
+    "hinge-trial.stl": "3fee1d092cfdbeccc49b6b1492b258c92ce23791d9931e6c248223267d474442"
+  },
+  "meshes": [
+    {
+      "file": "assembly-plate.stl",
+      "triangles": 67336,
+      "components": 2,
+      "volume_mm3": 160944.397,
+      "bounds_mm": [
+        [
+          30.00015,
+          40.00015,
+          0.0
+        ],
+        [
+          144.88609,
+          117.89141,
+          120.0
+        ]
+      ],
+      "min_triangle_area_mm2": 3.116924302892692e-05
+    },
+    {
+      "file": "hinge-trial.stl",
+      "triangles": 5734,
+      "components": 2,
+      "volume_mm3": 10076.755,
+      "bounds_mm": [
+        [
+          40.0,
+          60.0,
+          0.0
+        ],
+        [
+          85.83221,
+          84.77029,
+          18.0
+        ]
+      ],
+      "min_triangle_area_mm2": 8.584478108944787e-05
+    }
+  ],
+  "overhang_over_45deg_mm2": {
+    "assembly-plate.stl": {
+      "hinge_mm2": 0.0,
+      "outside_hinge_mm2": 271.3568246860572
+    },
+    "hinge-trial.stl": {
+      "hinge_mm2": 0.0,
+      "outside_hinge_mm2": 20.185915529628474
+    }
+  },
+  "solid": {
+    "joints": [
+      {
+        "lower_rim_mm": 8.0,
+        "upper_rim_mm": 8.565685424949239,
+        "cone_normal_gap_mm": 0.39999999999999847,
+        "pin_socket_radial_gap_mm": 0.29999999999999954,
+        "minimum_gap_mm": 0.29999999999999954,
+        "upper_rim_unsupported_arc_deg": 302
+      },
+      {
+        "lower_rim_mm": 111.43431457505076,
+        "upper_rim_mm": 112.0,
+        "cone_normal_gap_mm": 0.3999999999999895,
+        "pin_socket_radial_gap_mm": 0.29999999999999954,
+        "minimum_gap_mm": 0.29999999999999954,
+        "upper_rim_unsupported_arc_deg": 302
+      }
+    ],
+    "axis_layout": [
+      [
+        "L",
+        0.0,
+        14.75
+      ],
+      [
+        "-",
+        14.8,
+        15.3
+      ],
+      [
+        "R",
+        15.350000000000001,
+        118.2
+      ],
+      [
+        "-",
+        118.25,
+        118.75
+      ],
+      [
+        "L",
+        118.80000000000001,
+        120.0
+      ]
+    ],
+    "motion": [
+      {
+        "angle_deg": -2,
+        "overlap_mm3": 16.90799975960835
+      },
+      {
+        "angle_deg": -0.1,
+        "overlap_mm3": 0.6976980963096582
+      },
+      {
+        "angle_deg": 0.0,
+        "overlap_mm3": 0.0
+      },
+      {
+        "angle_deg": 0.5,
+        "overlap_mm3": 0.0
+      },
+      {
+        "angle_deg": 1.0,
+        "overlap_mm3": 0.0
+      },
+      {
+        "angle_deg": 1.5,
+        "overlap_mm3": 0.0
+      },
+      {
+        "angle_deg": 2.0,
+        "overlap_mm3": 0.0
+      },
+      {
+        "angle_deg": 2.5,
+        "overlap_mm3": 0.0
+      },
+      {
+        "angle_deg": 3.0,
+        "overlap_mm3": 0.0
+      },
+      {
+        "angle_deg": 3.5,
+        "overlap_mm3": 0.0
+      },
+      {
+        "angle_deg": 4.0,
+        "overlap_mm3": 0.0
+      },
+      {
+        "angle_deg": 4.5,
+        "overlap_mm3": 0.0
+      },
+      {
+        "angle_deg": 5.0,
+        "overlap_mm3": 0.0
+      },
+      {
+        "angle_deg": 5.5,
+        "overlap_mm3": 0.0
+      },
+      {
+        "angle_deg": 6.0,
+        "overlap_mm3": 0.0
+      },
+      {
+        "angle_deg": 6.5,
+        "overlap_mm3": 0.0
+      },
+      {
+        "angle_deg": 7.0,
+        "overlap_mm3": 0.0
+      },
+      {
+        "angle_deg": 7.5,
+        "overlap_mm3": 0.0
+      },
+      {
+        "angle_deg": 8.0,
+        "overlap_mm3": 0.0
+      },
+      {
+        "angle_deg": 8.5,
+        "overlap_mm3": 0.0
+      },
+      {
+        "angle_deg": 9.0,
+        "overlap_mm3": 0.0
+      },
+      {
+        "angle_deg": 9.5,
+        "overlap_mm3": 0.0
+      },
+      {
+        "angle_deg": 10.0,
+        "overlap_mm3": 0.0
+      },
+      {
+        "angle_deg": 10.2,
+        "overlap_mm3": 0.0
+      }
+    ],
+    "hinge_brep_min_upward_normal": -0.7071067811865479,
+    "print_pose_minimum_gap_mm": 0.2999999999999972,
+    "print_pose_stop_gap_mm": 1.9968050718771628,
+    "plate_volume_mm3": 160951.63020763415,
+    "trial_volume_mm3": 10077.538105463813,
+    "plate_axis_xy": [
+      87.44312407683634,
+      102.24937629766978
+    ],
+    "trial_axis_xy": [
+      62.91610854961545,
+      76.85207484052479
+    ]
+  }
+}

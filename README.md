@@ -8,6 +8,8 @@
 
 형상·조립 경로와 슬라이싱을 검사한 디지털 시제품입니다. 실제 출력·끼움 힘·탄성 복원·지지 안정성은 아직 확인하지 않았습니다. [상세 출력·조립 안내](docs/snap-retainer.md)에 실물 확인 양식이 있습니다.
 
+조립 없이 한 번에 출력하는 방식도 있습니다. v14의 긴 중앙 원통 형태에서 축과 캡을 없애고, 두 몸체를 경첩으로 맞물린 채 서포트 없이 출력합니다. 파일과 시험편 우선 출력 순서는 [조립 상태 일체 출력 안내](docs/print-in-place.md)에 있습니다.
+
 ## 바로 사용할 파일
 
 [전체 ZIP 다운로드](exports/snap-retainer-kit.zip) · [6개 부품 STL 모음](exports/snap-retainer/assembly-plate.stl) · [전체 판3MF](exports/snap-retainer/sliced-assembly/snap-retainer-x1c-pla.3mf)

@@ -1,0 +1,32 @@
+{
+  "units": "mm",
+  "base_parameters_sha256": "62ef8bb60f9ab7d19a991a0d409b9aa855925f6c095454f906a2599a7ae0ff72",
+  "print_angle_deg": 8.2,
+  "pin_diameter_mm": 6.0,
+  "socket_diameter_mm": 6.6,
+  "radial_clearance_mm": 0.3,
+  "cone_normal_gap_mm": 0.4,
+  "cone_axial_gap_mm": 0.5656854249492381,
+  "joints_mm": [
+    {
+      "lower_rim": 8.0,
+      "upper_rim": 8.565685424949239
+    },
+    {
+      "lower_rim": 111.43431457505076,
+      "upper_rim": 112.0
+    }
+  ],
+  "assembly_quantities": {
+    "body-left": 1,
+    "body-right": 1
+  },
+  "plate_volume_mm3": 160951.63020763415,
+  "trial_volume_mm3": 10077.538105463813,
+  "files": [
+    "assembly-plate.stl",
+    "assembly-plate.3mf",
+    "assembly-plate.step",
+    "hinge-trial.stl"
+  ]
+}
